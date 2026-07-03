@@ -23,7 +23,7 @@
 - Images: only free-license sources (Wikimedia Commons, Unsplash, Pexels), downloaded into `public/images/`, attributed in `CREDITS.md`. Never hotlink. If no free image exists, use an SVG illustration instead. All `<img>`: `loading="lazy"` + explicit width/height.
 - Mobile-first responsive. No CSS framework.
 - Git identity is already configured repo-locally (distefanino / ialias@live.it). Commit after every task.
-- Node 20+ required (22 LTS recommended — @nuxt/content v3 uses better-sqlite3; if its native build fails on Windows, upgrade to Node 22 and reinstall).
+- **Node >=22.5.0 required** (enforced via `package.json` `engines` + `.npmrc` `engine-strict=true`). @nuxt/content is configured with `content.experimental.sqliteConnector: 'native'` in `nuxt.config.ts`, using Node's built-in `node:sqlite` module instead of the optional native `better-sqlite3` binding — this avoids the native-module install/build entirely, but requires Node 22.5+ (where `node:sqlite` exists). This supersedes the original "Node 20+ required" constraint after Task 1's review found that a lower floor caused @nuxt/content to fall back to an interactive/auto-install path for `better-sqlite3` that crashed non-interactively and could silently rewrite the lockfile.
 
 ## File Structure
 
