@@ -1,12 +1,10 @@
-import type gsap from 'gsap'
-
 export function prefersReducedMotion(): boolean {
   if (import.meta.server) return true
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 export function useReveal(selector = '[data-reveal]') {
-  const { $gsap } = useNuxtApp() as unknown as { $gsap: typeof gsap }
+  const { $gsap } = useNuxtApp()
   onMounted(() => {
     if (prefersReducedMotion() || !$gsap) return
     $gsap.utils.toArray<HTMLElement>(selector).forEach((el, i) => {

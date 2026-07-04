@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type gsap from 'gsap'
 import { useProgressStore } from '~/stores/progress'
 
 const store = useProgressStore()
@@ -7,7 +6,7 @@ const title = 'Reflex Master'
 const chars = title.split('')
 
 onMounted(() => {
-  const { $gsap } = useNuxtApp() as unknown as { $gsap: typeof gsap }
+  const { $gsap } = useNuxtApp()
   if (prefersReducedMotion() || !$gsap) return
   $gsap.from('.hero__char', {
     yPercent: 120, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.04, delay: 0.2,

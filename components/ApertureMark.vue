@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import type gsap from 'gsap'
-
 withDefaults(defineProps<{ size?: number }>(), { size: 160 })
 const root = ref<SVGSVGElement>()
 
 onMounted(() => {
-  const { $gsap } = useNuxtApp() as unknown as { $gsap: typeof gsap }
+  const { $gsap } = useNuxtApp()
   if (prefersReducedMotion() || !$gsap || !root.value) return
   const tl = $gsap.timeline()
   tl.from(root.value.querySelector('.aperture__blades'), {
