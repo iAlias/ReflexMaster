@@ -30,4 +30,8 @@ describe('lessons utils', () => {
     expect(adjacentLessons(lessons, 'a').prev).toBeNull()
     expect(adjacentLessons(lessons, 'c').next).toBeNull()
   })
+
+  it('adjacentLessons returns null prev/next for an unknown slug', () => {
+    expect(adjacentLessons(lessons, 'missing')).toEqual({ prev: null, next: null })
+  })
 })
