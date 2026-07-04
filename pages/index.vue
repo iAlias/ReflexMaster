@@ -5,6 +5,12 @@ const store = useProgressStore()
 const title = 'Reflex Master'
 const chars = title.split('')
 
+// Gate the persisted-state-driven CTA behind hydration: the static build renders
+// the default ("Inizia ora" -> /wizard); after mount it reflects real progress.
+// See composables/useHydrated.ts.
+const hydrated = useHydrated()
+const resumeCourse = computed(() => hydrated.value && store.wizardCompleted)
+
 onMounted(() => {
   const { $gsap } = useNuxtApp()
   if (prefersReducedMotion() || !$gsap) return
@@ -30,8 +36,8 @@ onMounted(() => {
       Il corso interattivo che ti porta da zero a fotografo.
       Impara a dominare la tua reflex, lezione dopo lezione.
     </p>
-    <NuxtLink :to="store.wizardCompleted ? '/corso' : '/wizard'" class="btn hero__cta">
-      {{ store.wizardCompleted ? 'Riprendi il corso' : 'Inizia ora' }}
+    <NuxtLink :to="resumeCourse ? '/corso' : '/wizard'" class="btn hero__cta">
+      {{ resumeCourse ? 'Riprendi il corso' : 'Inizia ora' }}
     </NuxtLink>
   </main>
 </template>

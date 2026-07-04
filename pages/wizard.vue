@@ -5,7 +5,13 @@ const store = useProgressStore()
 const router = useRouter()
 const { $gsap } = useNuxtApp()
 const step = ref<1 | 2>(1)
-const choice = ref<Brand | null>(store.brand)
+// Start empty so the static build (no localStorage) matches the first client
+// render; a returning user's saved brand is filled in after mount, avoiding a
+// hydration mismatch on the selected card. See composables/useHydrated.ts.
+const choice = ref<Brand | null>(null)
+onMounted(() => {
+  choice.value = store.brand
+})
 
 function pick(brand: Brand) {
   choice.value = brand
