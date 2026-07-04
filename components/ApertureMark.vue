@@ -18,15 +18,29 @@ onMounted(() => {
 </script>
 
 <template>
-  <svg ref="root" :width="size" :height="size" viewBox="0 0 200 200" aria-hidden="true" class="aperture">
+  <!--
+    width/height are set via :style (patchStyle) and the blade rotations are
+    static attributes on purpose: binding width/height/transform on SVG elements
+    makes Vue 3.5 re-patch them as DOM properties during hydration, which throws
+    "Cannot set property … which has only a getter" because SVGAnimatedLength /
+    SVGAnimatedTransformList are read-only. viewBox handles the scaling, so the
+    render is identical.
+  -->
+  <svg
+    ref="root"
+    :style="{ width: `${size}px`, height: `${size}px` }"
+    viewBox="0 0 200 200"
+    aria-hidden="true"
+    class="aperture"
+  >
     <circle cx="100" cy="100" r="96" class="aperture__ring" />
     <g class="aperture__blades">
-      <path
-        v-for="i in 6" :key="i"
-        :transform="`rotate(${i * 60} 100 100)`"
-        d="M100 100 L100 10 A90 90 0 0 1 177.9 55 Z"
-        class="aperture__blade"
-      />
+      <path transform="rotate(60 100 100)" d="M100 100 L100 10 A90 90 0 0 1 177.9 55 Z" class="aperture__blade" />
+      <path transform="rotate(120 100 100)" d="M100 100 L100 10 A90 90 0 0 1 177.9 55 Z" class="aperture__blade" />
+      <path transform="rotate(180 100 100)" d="M100 100 L100 10 A90 90 0 0 1 177.9 55 Z" class="aperture__blade" />
+      <path transform="rotate(240 100 100)" d="M100 100 L100 10 A90 90 0 0 1 177.9 55 Z" class="aperture__blade" />
+      <path transform="rotate(300 100 100)" d="M100 100 L100 10 A90 90 0 0 1 177.9 55 Z" class="aperture__blade" />
+      <path transform="rotate(360 100 100)" d="M100 100 L100 10 A90 90 0 0 1 177.9 55 Z" class="aperture__blade" />
     </g>
     <circle cx="100" cy="100" r="34" class="aperture__iris" />
   </svg>
