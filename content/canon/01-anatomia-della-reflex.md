@@ -45,7 +45,7 @@ Il corpo macchina, o *body*, della tua Canon EOS 2000D o EOS 850D è il centro n
 
 Osservando il corpo dall'esterno noterai tre zone funzionali distinte: il pannello superiore, con la ghiera dei modi e il pulsante di scatto; il dorso, dominato dal mirino, dallo schermo LCD e dai comandi di navigazione; e l'impugnatura, dove si nasconde il vano batteria e dove la mano destra trova naturalmente il pulsante di scatto e la ghiera principale. Questa disposizione non è casuale: Canon progetta l'ergonomia in modo che, con la fotocamera all'occhio, tutti i comandi essenziali restino raggiungibili senza staccare il mirino dal viso.
 
-::lesson-image{src="/images/canon/corpo-macchina-fronte-retro.webp" alt="Vista frontale e posteriore del corpo di una Canon EOS 850D con le zone funzionali evidenziate" credit="Reflex Master"}
+::lesson-image{src="/images/canon/corpo-macchina-fronte-retro.webp" alt="Corpo di una Canon EOS 850D con obiettivo EF-S 18-55mm: impugnatura, ghiera dei modi e pulsante di scatto" credit="Foto: 昼落ち, CC BY-SA 4.0, via Wikimedia Commons" width="1600" height="1450"}
 ::
 
 Un dettaglio spesso trascurato dai principianti è l'attacco a baionetta EF/EF-S: il cerchio metallico con i contatti dorati attraverso cui il corpo comunica elettronicamente con l'obiettivo, scambiando informazioni su apertura, distanza di messa a fuoco e stabilizzazione. È un'interfaccia meccanica ed elettronica insieme, e va trattata con cura: sporco o umidità sui contatti possono causare errori di comunicazione intermittenti.
@@ -72,7 +72,7 @@ Qui inizia la parte più pratica, quella che ti farà smettere di "cercare" i co
 
 La ghiera di controllo rapido (Quick Control Dial), il grande anello che circonda i tasti di navigazione sul dorso della fotocamera, ha un ruolo complementare: naviga i menu, scorre le foto in riproduzione e, in modalità M su alcuni corpi, regola l'apertura mentre la ghiera principale regola il tempo.
 
-::lesson-image{src="/images/canon/ghiere-pulsanti-dorso.webp" alt="Dettaglio del dorso di una Canon EOS 850D con ghiera di controllo rapido, pulsante Q e pulsante ISO evidenziati" credit="Reflex Master"}
+::lesson-image{src="/images/canon/ghiere-pulsanti-dorso.webp" alt="Dorso di una Canon EOS 850D: mirino, pulsanti MENU e INFO, AF-ON, pulsante Q e ghiera di controllo rapido" credit="Foto: 昼落ち, CC BY-SA 4.0, via Wikimedia Commons" width="1600" height="1334"}
 ::
 
 La ghiera dei modi, sul pannello superiore, è il selettore che determina quanto controllo hai sull'esposizione: dal verde "automatico totale" fino a M (manuale), passando per P (programma), Tv (priorità di tempi), Av (priorità di apertura). Il pulsante Q apre il pannello di controllo rapido, la scorciatoia più veloce per cambiare ISO, modalità di messa a fuoco, bilanciamento del bianco e stile foto senza affondare nei menu. Il pulsante ISO, quando presente come tasto dedicato (sulla 850D è integrato vicino allo scatto; sulla 2000D si accede via Q), regola direttamente la sensibilità del sensore. Su modelli come la 850D trovi anche il pulsante AF-ON, che separa la messa a fuoco dallo scatto: una tecnica avanzata (back-button focus) che approfondiremo più avanti nel corso.

@@ -52,7 +52,7 @@ challenge:
 
 Sul pannello superiore della tua Nikon c'è il selettore che stabilisce quanta parte del lavoro deleghi alla fotocamera. Le posizioni si dividono in due famiglie: la zona automatica (AUTO, il flash disattivato, i programmi soggetto e gli effetti speciali) e la zona creativa, dove si trovano P, A, S e M. È in quest'ultima che si svolge tutto il corso: nella zona automatica la fotocamera decide anche cose che dovresti decidere tu, come il bilanciamento del bianco o il Picture Control, e in molti casi non consente nemmeno il formato NEF.
 
-::lesson-image{src="/images/nikon/ghiera-modi.webp" alt="Ghiera dei modi di una reflex Nikon con le posizioni P, S, A e M ben visibili" credit="Reflex Master"}
+::lesson-image{src="/images/nikon/ghiera-modi.webp" alt="Vista dall'alto di una Nikon D5600 con la ghiera dei modi su cui si leggono M, A, S e P" credit="Foto: Michael Kramer, CC BY-SA 3.0, via Wikimedia Commons" width="1600" height="1068"}
 ::
 
 ## P — Programma

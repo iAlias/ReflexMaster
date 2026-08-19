@@ -45,7 +45,7 @@ Il corpo macchina, o *body*, della tua Nikon D3500 o D5600 è il centro nervoso 
 
 Osservando il corpo dall'esterno noterai tre zone funzionali distinte: il pannello superiore, con la ghiera dei modi e il pulsante di scatto; il dorso, dominato dal mirino, dallo schermo LCD e dai comandi di navigazione; e l'impugnatura, dove si nasconde il vano batteria e dove la mano destra trova naturalmente il pulsante di scatto e la ghiera di comando posteriore. Questa disposizione non è casuale: Nikon progetta l'ergonomia in modo che, con la fotocamera all'occhio, tutti i comandi essenziali restino raggiungibili senza staccare il mirino dal viso.
 
-::lesson-image{src="/images/nikon/corpo-macchina-fronte-retro.webp" alt="Vista frontale e posteriore del corpo di una Nikon D5600 con le zone funzionali evidenziate" credit="Reflex Master"}
+::lesson-image{src="/images/nikon/corpo-macchina-fronte-retro.webp" alt="Vista frontale del corpo di una Nikon D5600 con attacco a baionetta F e impugnatura" credit="Foto: Michael Kramer, CC BY-SA 3.0, via Wikimedia Commons" width="1600" height="1068"}
 ::
 
 Un dettaglio spesso trascurato dai principianti è l'attacco a baionetta Nikon F: il cerchio metallico con i contatti dorati attraverso cui il corpo comunica elettronicamente con l'obiettivo, scambiando informazioni su apertura, distanza di messa a fuoco e stabilizzazione (VR, *Vibration Reduction*, quando presente sull'ottica). È un'interfaccia meccanica ed elettronica insieme, e va trattata con cura: sporco o umidità sui contatti possono causare errori di comunicazione intermittenti.
@@ -72,7 +72,7 @@ Qui inizia la parte più pratica, quella che ti farà smettere di "cercare" i co
 
 La ghiera di comando anteriore, posizionata sotto le dita vicino all'innesto dell'obiettivo, è presente sulla D5600 ma non sulla D3500 (che, da corpo entry level, ne è priva): dove disponibile, regola l'apertura in modalità A e M, lasciando alla ghiera posteriore il controllo del tempo. Su un corpo con un'unica ghiera, come la D3500, è il pulsante Fn o la combinazione con altri tasti a supplire a questa mancanza in modalità M.
 
-::lesson-image{src="/images/nikon/ghiere-pulsanti-dorso.webp" alt="Dettaglio del dorso di una Nikon D5600 con ghiera di comando posteriore, pulsante i e pulsante ISO evidenziati" credit="Reflex Master"}
+::lesson-image{src="/images/nikon/ghiere-pulsanti-dorso.webp" alt="Dorso di una Nikon D5600: monitor orientabile, mirino, pulsante i e selettore multiplo" credit="Foto: Michael Kramer, CC BY-SA 3.0, via Wikimedia Commons" width="1600" height="1068"}
 ::
 
 La ghiera dei modi, sul pannello superiore, è il selettore che determina quanto controllo hai sull'esposizione: dall'icona verde "automatico totale" fino a M (manuale), passando per P (programma), S (priorità di tempi), A (priorità di apertura). Il pulsante i apre il pannello di controllo rapido, la scorciatoia più veloce per cambiare ISO, modalità di messa a fuoco, bilanciamento del bianco e Picture Control senza affondare nei menu. Il pulsante ISO, quando presente come tasto dedicato (sulla D5600 è integrato vicino al mirino; sulla D3500 si accede via il pulsante i), regola direttamente la sensibilità del sensore. Su entrambi i corpi trovi anche il pulsante AE-L/AF-L, che puoi personalizzare per separare la messa a fuoco dallo scatto: una tecnica avanzata (back-button focus) che approfondiremo più avanti nel corso.

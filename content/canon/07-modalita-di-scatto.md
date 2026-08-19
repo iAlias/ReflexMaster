@@ -52,7 +52,7 @@ challenge:
 
 Sul pannello superiore della tua Canon c'è il selettore che stabilisce quanta parte del lavoro deleghi alla fotocamera. Le posizioni si dividono in due famiglie: la zona automatica (il rettangolo verde, i modi scena, il flash disattivato) e la zona creativa, dove si trovano P, Av, Tv e M. È in quest'ultima che si svolge tutto il corso: nella zona automatica la fotocamera decide anche cose che dovresti decidere tu, come il bilanciamento del bianco o lo stile immagine, e spesso non consente nemmeno il RAW.
 
-::lesson-image{src="/images/canon/ghiera-modi.webp" alt="Ghiera dei modi di una reflex Canon con le posizioni P, Tv, Av e M ben visibili" credit="Reflex Master"}
+::lesson-image{src="/images/canon/ghiera-modi.webp" alt="Ghiera dei modi di una reflex Canon con le posizioni M, Av, Tv e P ben visibili" credit="Foto: NJM2010, CC BY-SA 3.0, via Wikimedia Commons" width="640" height="479"}
 ::
 
 ## P — Programma
