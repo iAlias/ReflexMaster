@@ -31,11 +31,12 @@ const caption = computed(() => {
 
 <style scoped>
 .shutter { display: grid; gap: 14px; justify-items: center; margin-block: 32px; padding: 28px; }
-.shutter svg { width: min(320px, 80vw); }
+.shutter svg { width: 100%; max-width: 320px; }
 .shutter__ground { stroke: var(--border); stroke-width: 2; }
 .shutter__head { fill: var(--brand); }
 .shutter__body, .shutter__limb { stroke: var(--brand); stroke-width: 5; stroke-linecap: round; }
 .shutter__label { fill: var(--text); font-weight: 800; font-size: 18px; }
-.shutter input { width: min(280px, 80%); accent-color: var(--brand); }
+.shutter input { width: 100%; max-width: 280px; accent-color: var(--brand); }
 figcaption { color: var(--text-dim); font-size: 0.9rem; text-align: center; }
+@media (max-width: 480px) { .shutter { padding: 20px 12px; } }
 </style>

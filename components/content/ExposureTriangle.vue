@@ -35,9 +35,10 @@ onMounted(() => {
 
 <style scoped>
 .triangle { display: grid; gap: 12px; justify-items: center; margin-block: 32px; padding: 28px; }
-.triangle svg { width: min(320px, 75vw); overflow: visible; }
+.triangle svg { width: 100%; max-width: 320px; overflow: visible; }
 .triangle__path { fill: none; stroke: var(--brand); stroke-width: 3; stroke-linejoin: round; }
 .triangle__label { fill: var(--text); font-weight: 800; font-size: 15px; }
 .triangle__center { fill: var(--text-dim); font-size: 12px; letter-spacing: 0.15em; }
 figcaption { color: var(--text-dim); font-size: 0.9rem; text-align: center; }
+@media (max-width: 480px) { .triangle { padding: 20px 12px; } }
 </style>

@@ -1,6 +1,23 @@
+import { readdirSync } from 'node:fs'
+
+// Lesson slugs are identical for both brands (only the prose differs), so one
+// prerendered page per slug serves Canon and Nikon alike: the page picks the
+// brand's content client-side once the store is restored. Crawling alone would
+// not find them all - the dashboard only links the lessons of the default
+// brand - and an un-prerendered route 404s on static hosting.
+const lessonRoutes = readdirSync(new URL('content/canon', import.meta.url))
+  .filter(file => file.endsWith('.md'))
+  .map(file => `/corso/${file.replace(/^\d+-/, '').replace(/\.md$/, '')}`)
+
 export default defineNuxtConfig({
   compatibilityDate: '2026-07-01',
   modules: ['@nuxt/content', '@pinia/nuxt'],
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/', '/wizard', '/corso', '/impostazioni', ...lessonRoutes],
+    },
+  },
   content: {
     experimental: {
       // @nuxt/content needs a SQLite adapter to build its content database. Rather

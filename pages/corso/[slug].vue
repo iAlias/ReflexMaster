@@ -32,7 +32,9 @@ const { data: all } = await useAsyncData(
 const adj = computed(() => adjacentLessons(all.value ?? [], slug.value))
 
 useHead(() => ({ title: lesson.value ? `${lesson.value.title} — Reflex Master` : 'Reflex Master' }))
-useReveal('.lesson-body > *')
+// ContentRenderer wraps the rendered Markdown in a single <div>, so the blocks
+// to reveal are its children, one level deeper than the article itself.
+useReveal('.lesson-body > * > *')
 </script>
 
 <template>

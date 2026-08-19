@@ -48,7 +48,7 @@ const caption = computed(() => {
 
 <style scoped>
 .diagram { display: grid; gap: 14px; justify-items: center; margin-block: 32px; padding: 28px; }
-.diagram svg { width: min(240px, 60vw); }
+.diagram svg { width: 100%; max-width: 240px; }
 .diagram__ring { fill: var(--surface-2); stroke: var(--border); stroke-width: 3; }
 .diagram__blade { stroke: var(--bg); stroke-width: 3; }
 .diagram__iris {
@@ -57,6 +57,7 @@ const caption = computed(() => {
   transition: transform 0.25s ease;
 }
 .diagram__label { font-weight: 800; font-size: 20px; fill: #0a0a0b; }
-.diagram input { width: min(280px, 80%); accent-color: var(--brand); }
+.diagram input { width: 100%; max-width: 280px; accent-color: var(--brand); }
 figcaption { color: var(--text-dim); font-size: 0.9rem; text-align: center; }
+@media (max-width: 480px) { .diagram { padding: 20px 12px; } }
 </style>
