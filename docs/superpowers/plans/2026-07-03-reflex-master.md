@@ -1,6 +1,6 @@
 # Reflex Master Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build "Reflex Master", an Italian-language interactive web course (Nuxt 3 SSG) that teaches DSLR photography to professional level, with brand-specific content paths (Canon/Nikon), quizzes, practical challenges, localStorage progress, and GSAP-driven animations.
 
@@ -24,6 +24,8 @@
 - Images: only free-license sources (Wikimedia Commons, Unsplash, Pexels), downloaded into `public/images/`, attributed in `CREDITS.md`. Never hotlink. If no free image exists, use an SVG illustration instead. All `<img>`: `loading="lazy"` + explicit width/height.
 - Mobile-first responsive. No CSS framework.
 - Git identity is already configured repo-locally (distefanino / ialias@live.it). Commit after every task.
+- **Client-side redirects must not fire during hydration:** the `wizard` route guard reads the restored store and redirects, but doing so while Vue is still hydrating swaps the server-rendered page for a different one and Vue reports a hydration mismatch. The guard therefore defers to `onNuxtReady()` when `useNuxtApp().isHydrating` is true. For the same reason the immersive pages (landing, wizard) keep the default layout and hide the header via `definePageMeta({ immersive: true })` instead of `layout: false` - a redirect that also changed layout turned a laid-out tree into a bare fragment (added after Task 18 QA).
+- **Prerender every lesson route:** slugs are identical across brands, so one prerendered `/corso/<slug>` serves both; `nitro.prerender.routes` lists them because crawling only discovers the default brand links, and an un-prerendered route 404s on static hosting (added after Task 18 QA).
 - **Node >=22.5.0 required** (enforced via `package.json` `engines` + `.npmrc` `engine-strict=true`). @nuxt/content is configured with `content.experimental.sqliteConnector: 'native'` in `nuxt.config.ts`, using Node's built-in `node:sqlite` module instead of the optional native `better-sqlite3` binding — this avoids the native-module install/build entirely, but requires Node 22.5+ (where `node:sqlite` exists). This supersedes the original "Node 20+ required" constraint after Task 1's review found that a lower floor caused @nuxt/content to fall back to an interactive/auto-install path for `better-sqlite3` that crashed non-interactively and could silently rewrite the lockfile.
 
 ## File Structure
@@ -78,7 +80,7 @@ CREDITS.md                       # image attributions
 **Interfaces:**
 - Produces: npm scripts `dev`/`build`/`generate`/`test`; CSS custom properties consumed by every later task (`--bg`, `--surface`, `--surface-2`, `--text`, `--text-dim`, `--accent`, `--brand`, `--ok`, `--err`, `--radius`); utility classes `.container`, `.btn`, `.card`.
 
-- [ ] **Step 1: Write `package.json`**
+- [x] **Step 1: Write `package.json`**
 
 ```json
 {
@@ -111,7 +113,7 @@ CREDITS.md                       # image attributions
 }
 ```
 
-- [ ] **Step 2: Write `.gitignore`**
+- [x] **Step 2: Write `.gitignore`**
 
 ```
 node_modules
@@ -122,7 +124,7 @@ dist
 *.log
 ```
 
-- [ ] **Step 3: Write `nuxt.config.ts`**
+- [x] **Step 3: Write `nuxt.config.ts`**
 
 ```ts
 export default defineNuxtConfig({
@@ -143,7 +145,7 @@ export default defineNuxtConfig({
 })
 ```
 
-- [ ] **Step 4: Write `vitest.config.ts`**
+- [x] **Step 4: Write `vitest.config.ts`**
 
 ```ts
 import { fileURLToPath } from 'node:url'
@@ -157,7 +159,7 @@ export default defineConfig({
 })
 ```
 
-- [ ] **Step 5: Write `app.vue`**
+- [x] **Step 5: Write `app.vue`**
 
 ```vue
 <template>
@@ -167,7 +169,7 @@ export default defineConfig({
 </template>
 ```
 
-- [ ] **Step 6: Write `assets/css/main.css`**
+- [x] **Step 6: Write `assets/css/main.css`**
 
 ```css
 /* ===== Design tokens ===== */
@@ -237,7 +239,7 @@ button { font: inherit; cursor: pointer; }
 }
 ```
 
-- [ ] **Step 7: Write placeholder `pages/index.vue`** (replaced in Task 4)
+- [x] **Step 7: Write placeholder `pages/index.vue`** (replaced in Task 4)
 
 ```vue
 <template>
@@ -247,13 +249,13 @@ button { font: inherit; cursor: pointer; }
 </template>
 ```
 
-- [ ] **Step 8: Install and verify dev server**
+- [x] **Step 8: Install and verify dev server**
 
 Run: `npm install`
 Then: `npm run dev` — expect Nuxt to start on `http://localhost:3000` with the placeholder heading, no console errors. Stop the server.
 (If better-sqlite3 fails to compile: upgrade to Node 22 LTS, delete `node_modules`, reinstall.)
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add -A
@@ -276,7 +278,7 @@ git commit -m "chore: scaffold Nuxt 3 project with content, pinia, gsap, vitest"
   - getters: `lessonProgress(slug): LessonProgress`, `isLessonCompleted(slug): boolean`, `completedCount: number`
   - actions: `setBrand(brand)`, `completeWizard()`, `markQuizPassed(slug)`, `markChallengeDone(slug, done = true)`, `completeLesson(slug): boolean`, `resetAll()`
 
-- [ ] **Step 1: Write the failing tests — `tests/unit/progress.spec.ts`**
+- [x] **Step 1: Write the failing tests — `tests/unit/progress.spec.ts`**
 
 ```ts
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -343,12 +345,12 @@ describe('progress store', () => {
 })
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 Run: `npx vitest run tests/unit/progress.spec.ts`
 Expected: FAIL — cannot resolve `~/stores/progress`.
 
-- [ ] **Step 3: Write `stores/progress.ts`**
+- [x] **Step 3: Write `stores/progress.ts`**
 
 ```ts
 import { defineStore } from 'pinia'
@@ -412,7 +414,7 @@ export const useProgressStore = defineStore('progress', {
 
 (`persist: true` is inert under plain Pinia in unit tests; it is activated by the Nuxt plugin below.)
 
-- [ ] **Step 4: Write `plugins/persistedstate.client.ts`** (localStorage + corrupted-data safety)
+- [x] **Step 4: Write `plugins/persistedstate.client.ts`** (localStorage + corrupted-data safety)
 
 ```ts
 import { createPersistedState } from 'pinia-plugin-persistedstate'
@@ -431,12 +433,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 })
 ```
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 Run: `npx vitest run tests/unit/progress.spec.ts`
 Expected: 6 passed.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add stores plugins tests
@@ -458,7 +460,7 @@ git commit -m "feat: progress store with per-brand localStorage persistence"
   - `utils/lessons.ts` exports: `interface LessonMeta { slug: string; title: string; description: string; order: number; module: number; path: string }`, `MODULES: Record<number, string>`, `TOTAL_LESSONS = 24`, `sortLessons(lessons)`, `groupByModule(lessons)` → `{ module, name, lessons }[]`, `nextLesson(lessons, isCompleted)` → first non-completed or null, `adjacentLessons(lessons, slug)` → `{ prev, next }`.
   - MDC component usable in every lesson: `::lesson-image{src="..." alt="..." credit="..." width="1200" height="800"}` `::`
 
-- [ ] **Step 1: Write `content.config.ts`**
+- [x] **Step 1: Write `content.config.ts`**
 
 ```ts
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
@@ -491,7 +493,7 @@ export default defineContentConfig({
 })
 ```
 
-- [ ] **Step 2: Write the failing tests — `tests/unit/lessons-utils.spec.ts`**
+- [x] **Step 2: Write the failing tests — `tests/unit/lessons-utils.spec.ts`**
 
 ```ts
 import { describe, expect, it } from 'vitest'
@@ -529,12 +531,12 @@ describe('lessons utils', () => {
 })
 ```
 
-- [ ] **Step 3: Run tests to verify they fail**
+- [x] **Step 3: Run tests to verify they fail**
 
 Run: `npx vitest run tests/unit/lessons-utils.spec.ts`
 Expected: FAIL — cannot resolve `~/utils/lessons`.
 
-- [ ] **Step 4: Write `utils/lessons.ts`**
+- [x] **Step 4: Write `utils/lessons.ts`**
 
 ```ts
 export interface LessonMeta {
@@ -586,12 +588,12 @@ export function adjacentLessons<T extends LessonMeta>(lessons: T[], slug: string
 }
 ```
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 Run: `npx vitest run tests/unit/lessons-utils.spec.ts`
 Expected: 4 passed.
 
-- [ ] **Step 6: Write `components/content/LessonImage.vue`**
+- [x] **Step 6: Write `components/content/LessonImage.vue`**
 
 (Components in `components/content/` are auto-registered globally by Nuxt for MDC use. If a lesson renders `<!-- unknown component -->` instead, add `components: { dirs: [{ path: '~/components/content', global: true }] }` to `nuxt.config.ts`.)
 
@@ -641,7 +643,7 @@ figcaption { font-size: 0.8rem; color: var(--text-dim); margin-top: 8px; }
 </style>
 ```
 
-- [ ] **Step 7: Author lesson 01 for BOTH brands — complete, final content**
+- [x] **Step 7: Author lesson 01 for BOTH brands — complete, final content**
 
 These are real deliverables, not samples: full 800–1500-word Italian lessons following the spec's quality standard. Structure for `content/canon/01-anatomia-della-reflex.md` (the Nikon file mirrors it with Nikon terminology, dials, menu names and model examples — D3500/D5600 instead of EOS 2000D/850D):
 
@@ -700,7 +702,7 @@ scaricate nel Task 17 — l'immagine mostra intanto il fallback SVG).]
 
 Author both files completely now (prose included). Word count check: `(Get-Content content/canon/01-anatomia-della-reflex.md -Raw).Split() | Measure-Object` → 800–1500 words of body.
 
-- [ ] **Step 8: Verify the content pipeline**
+- [x] **Step 8: Verify the content pipeline**
 
 Run: `npm run dev` and open `http://localhost:3000/_studio` — not needed; instead verify via a temporary check: create `pages/debug.vue`:
 
@@ -713,7 +715,7 @@ const { data } = await useAsyncData('dbg', () => queryCollection('lessons').all(
 
 Open `http://localhost:3000/debug` — expect `canon/anatomia-della-reflex #1` and `nikon/anatomia-della-reflex #1`. Delete `pages/debug.vue` afterwards.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add content.config.ts utils components/content content tests
@@ -736,7 +738,7 @@ git commit -m "feat: content collection, lesson utils, LessonImage, lesson 01 ca
   - `useReveal(selector?: string)` — call in a page/component `setup()`; on mount animates every matching element (default `[data-reveal]`) with fade-up on scroll; no-ops under reduced motion or on server
   - `<ApertureMark :size="number" />` — animated aperture SVG that opens on mount
 
-- [ ] **Step 1: Write `plugins/gsap.client.ts`**
+- [x] **Step 1: Write `plugins/gsap.client.ts`**
 
 ```ts
 import gsap from 'gsap'
@@ -748,7 +750,7 @@ export default defineNuxtPlugin(() => {
 })
 ```
 
-- [ ] **Step 2: Write `composables/useMotion.ts`**
+- [x] **Step 2: Write `composables/useMotion.ts`**
 
 ```ts
 import type gsap from 'gsap'
@@ -776,7 +778,7 @@ export function useReveal(selector = '[data-reveal]') {
 }
 ```
 
-- [ ] **Step 3: Write `components/ApertureMark.vue`**
+- [x] **Step 3: Write `components/ApertureMark.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -820,7 +822,7 @@ onMounted(() => {
 </style>
 ```
 
-- [ ] **Step 4: Replace `pages/index.vue` with the animated hero**
+- [x] **Step 4: Replace `pages/index.vue` with the animated hero**
 
 ```vue
 <script setup lang="ts">
@@ -873,12 +875,12 @@ onMounted(() => {
 </style>
 ```
 
-- [ ] **Step 5: Verify manually**
+- [x] **Step 5: Verify manually**
 
 Run: `npm run dev`, open `http://localhost:3000`.
 Expected: aperture blades rotate open, title characters slide up, subtitle/CTA fade in. CTA reads "Inizia ora" and links to `/wizard`. With DevTools → Rendering → "Emulate prefers-reduced-motion", everything is instantly visible.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add plugins composables components pages
@@ -900,7 +902,7 @@ git commit -m "feat: gsap setup, motion composable, animated landing hero"
   - Brand theming: `app.vue` mirrors `store.brand` to `document.documentElement.dataset.brand`, activating `--brand` per the CSS in Task 1.
   - `<BrandCard brand="canon|nikon" :selected="boolean" @select="...">` — tilt card.
 
-- [ ] **Step 1: Write `middleware/wizard.ts`**
+- [x] **Step 1: Write `middleware/wizard.ts`**
 
 ```ts
 export default defineNuxtRouteMiddleware(() => {
@@ -912,7 +914,7 @@ export default defineNuxtRouteMiddleware(() => {
 
 (`useProgressStore` is auto-imported from `stores/` by `@pinia/nuxt`; if not, add the explicit import.)
 
-- [ ] **Step 2: Update `app.vue`**
+- [x] **Step 2: Update `app.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -933,7 +935,7 @@ watchEffect(() => {
 </template>
 ```
 
-- [ ] **Step 3: Write `components/BrandCard.vue`**
+- [x] **Step 3: Write `components/BrandCard.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -998,7 +1000,7 @@ function onLeave() {
 </style>
 ```
 
-- [ ] **Step 4: Write `pages/wizard.vue`**
+- [x] **Step 4: Write `pages/wizard.vue`**
 
 Two steps with GSAP-animated transitions: step 1 = brand choice, step 2 = summary + start.
 
@@ -1079,13 +1081,13 @@ function onLeave(el: Element, done: () => void) {
 </style>
 ```
 
-- [ ] **Step 5: Verify manually**
+- [x] **Step 5: Verify manually**
 
 Run: `npm run dev`.
 - `http://localhost:3000/wizard`: pick Canon → check appears, "Continua" enables → summary slides in → "Inizia il corso" → lands on `/corso` (404 for now — dashboard comes in Task 6; the redirect happening is what matters).
 - Reload any page: `localStorage` key `progress` exists; `<html data-brand="canon">`; CTA hover now uses Canon red.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add app.vue pages middleware components
@@ -1103,7 +1105,7 @@ git commit -m "feat: onboarding wizard with brand theming and route guard"
 - Consumes: `queryCollection('lessons')`, `groupByModule` / `nextLesson` / `TOTAL_LESSONS` (Task 3), `useProgressStore`, `useReveal` (Task 4), middleware `wizard` (Task 5).
 - Produces: route `/corso`; `<ProgressBar :value="0..100" label="..." />` (reused by header in Task 11); `<LessonCard :lesson :state="'done'|'next'|'todo'" />` linking to `/corso/<slug>`.
 
-- [ ] **Step 1: Write `components/ProgressBar.vue`**
+- [x] **Step 1: Write `components/ProgressBar.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1126,7 +1128,7 @@ withDefaults(defineProps<{ value: number; label?: string }>(), { label: '' })
 </style>
 ```
 
-- [ ] **Step 2: Write `components/LessonCard.vue`**
+- [x] **Step 2: Write `components/LessonCard.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1170,7 +1172,7 @@ defineProps<{ lesson: LessonMeta; state: 'done' | 'next' | 'todo' }>()
 </style>
 ```
 
-- [ ] **Step 3: Write `pages/corso/index.vue`**
+- [x] **Step 3: Write `pages/corso/index.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1239,12 +1241,12 @@ useReveal()
 </style>
 ```
 
-- [ ] **Step 4: Verify manually**
+- [x] **Step 4: Verify manually**
 
 Run: `npm run dev`, complete the wizard, land on `/corso`.
 Expected: module 1 shows lesson 01 card marked "next" (▶, brand border); progress bars at 0%; cards reveal on scroll. Clear localStorage → visiting `/corso` redirects to `/wizard`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add pages components
@@ -1262,7 +1264,7 @@ git commit -m "feat: course dashboard with module grouping and progress"
 - Consumes: `queryCollection('lessons')`, `adjacentLessons` (Task 3), middleware `wizard`, `useReveal`, `useProgressStore`.
 - Produces: route `/corso/<slug>` rendering lesson body via `<ContentRenderer>`. Exposes a `<section id="esercizi">` placeholder where Task 8 mounts quiz/challenge (Task 8 modifies this file).
 
-- [ ] **Step 1: Write `components/ReadingProgress.vue`**
+- [x] **Step 1: Write `components/ReadingProgress.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1293,7 +1295,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 </style>
 ```
 
-- [ ] **Step 2: Write `components/LessonNavigation.vue`**
+- [x] **Step 2: Write `components/LessonNavigation.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1326,7 +1328,7 @@ defineProps<{ prev: LessonMeta | null; next: LessonMeta | null }>()
 </style>
 ```
 
-- [ ] **Step 3: Write `pages/corso/[slug].vue`**
+- [x] **Step 3: Write `pages/corso/[slug].vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1404,12 +1406,12 @@ useReveal('.lesson-body > *')
 </style>
 ```
 
-- [ ] **Step 4: Verify manually**
+- [x] **Step 4: Verify manually**
 
 Run: `npm run dev`, from `/corso` click lesson 01.
 Expected: `/corso/anatomia-della-reflex` renders title, kicker, prose with scroll reveals, reading bar fills while scrolling, `::lesson-image` blocks show the SVG fallback (photos arrive in Task 17), prev/next absent (only 1 lesson per brand so far). Visiting `/corso/finta-lezione` shows "Lezione non trovata".
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add pages components
@@ -1432,7 +1434,7 @@ git commit -m "feat: lesson page with reading progress and prev/next navigation"
   - `<ChallengeSection :title="string" :steps="string[]" :slug="string" />` — checkbox "L'ho fatta!" wired to `store.markChallengeDone(slug, checked)`.
   - `<CompleteLessonButton :slug="string" />` — disabled until `quizPassed && challengeDone`; on click calls `store.completeLesson(slug)` and plays a celebration pulse.
 
-- [ ] **Step 1: Write the failing component test — `tests/component/QuizSection.spec.ts`**
+- [x] **Step 1: Write the failing component test — `tests/component/QuizSection.spec.ts`**
 
 ```ts
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -1494,12 +1496,12 @@ describe('QuizSection', () => {
 })
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/component/QuizSection.spec.ts`
 Expected: FAIL — cannot resolve `~/components/QuizSection.vue`.
 
-- [ ] **Step 3: Write `components/QuizSection.vue`**
+- [x] **Step 3: Write `components/QuizSection.vue`**
 
 Note: import the store explicitly (not via auto-import) so the component works under plain Vitest.
 
@@ -1585,12 +1587,12 @@ function optionClass(qi: number, oi: number) {
 </style>
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `npx vitest run tests/component/QuizSection.spec.ts`
 Expected: 4 passed.
 
-- [ ] **Step 5: Write `components/ChallengeSection.vue`**
+- [x] **Step 5: Write `components/ChallengeSection.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1629,7 +1631,7 @@ const done = computed({
 </style>
 ```
 
-- [ ] **Step 6: Write `components/CompleteLessonButton.vue`**
+- [x] **Step 6: Write `components/CompleteLessonButton.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1671,7 +1673,7 @@ function complete() {
 </style>
 ```
 
-- [ ] **Step 7: Wire into `pages/corso/[slug].vue`**
+- [x] **Step 7: Wire into `pages/corso/[slug].vue`**
 
 Replace the `#esercizi` placeholder section with:
 
@@ -1683,12 +1685,12 @@ Replace the `#esercizi` placeholder section with:
       </section>
 ```
 
-- [ ] **Step 8: Run full test suite and verify manually**
+- [x] **Step 8: Run full test suite and verify manually**
 
 Run: `npm run test` — expected: all green (progress, lessons-utils, QuizSection).
 Manual: open lesson 01 → answer quiz (wrong answer shakes red with retry message; correct turns green with explanation) → tick the challenge → button enables → click → pulse animation, button reads "✓ Lezione completata" → back on `/corso` the card shows ✓ and progress bars move. Reload: state persists.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add pages components tests
@@ -1709,7 +1711,7 @@ git commit -m "feat: quiz, practical challenge and lesson completion flow"
   - `::exposure-triangle` + `::` — scroll-drawn triangle (used in lessons 02, 06)
   - `::shutter-motion-diagram` + `::` — shutter speed slider with motion blur (used in lessons 04, 19, 23)
 
-- [ ] **Step 1: Write `components/content/ApertureDiagram.vue`**
+- [x] **Step 1: Write `components/content/ApertureDiagram.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1752,7 +1754,7 @@ figcaption { color: var(--text-dim); font-size: 0.9rem; text-align: center; }
 </style>
 ```
 
-- [ ] **Step 2: Write `components/content/ExposureTriangle.vue`**
+- [x] **Step 2: Write `components/content/ExposureTriangle.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1801,7 +1803,7 @@ figcaption { color: var(--text-dim); font-size: 0.9rem; text-align: center; }
 </style>
 ```
 
-- [ ] **Step 3: Write `components/content/ShutterMotionDiagram.vue`**
+- [x] **Step 3: Write `components/content/ShutterMotionDiagram.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -1847,7 +1849,7 @@ figcaption { color: var(--text-dim); font-size: 0.9rem; text-align: center; }
 </style>
 ```
 
-- [ ] **Step 4: Verify manually**
+- [x] **Step 4: Verify manually**
 
 Temporarily add to `content/canon/01-anatomia-della-reflex.md` body:
 
@@ -1864,7 +1866,7 @@ Temporarily add to `content/canon/01-anatomia-della-reflex.md` body:
 
 Run `npm run dev`, open the lesson: triangle draws itself on scroll, aperture iris shrinks/grows with the slider (f/1.8 ↔ f/16), runner blurs as shutter slows. Remove the temporary blocks afterwards.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add components/content content
@@ -1882,7 +1884,7 @@ git commit -m "feat: interactive SVG diagrams (aperture, exposure triangle, shut
 - Consumes: `useProgressStore` (`brand`, `setBrand`, `resetAll`, `completedCount`), `<BrandCard>` (Task 5), `TOTAL_LESSONS` (Task 3).
 - Produces: themed 404/error page; `/impostazioni` route (linked from header in Task 11).
 
-- [ ] **Step 1: Write `error.vue`** (project root)
+- [x] **Step 1: Write `error.vue`** (project root)
 
 ```vue
 <script setup lang="ts">
@@ -1909,7 +1911,7 @@ const is404 = computed(() => props.error.statusCode === 404)
 </style>
 ```
 
-- [ ] **Step 2: Write `pages/impostazioni.vue`**
+- [x] **Step 2: Write `pages/impostazioni.vue`**
 
 Reset uses a two-step inline confirmation (NO browser `confirm()` dialogs).
 
@@ -1975,13 +1977,13 @@ function reset() {
 </style>
 ```
 
-- [ ] **Step 3: Verify manually**
+- [x] **Step 3: Verify manually**
 
 - `/pagina-inesistente` → "Fuori fuoco!" page with working "Torna alla home".
 - `/impostazioni`: switching Canon→Nikon updates `data-brand` and dashboard content instantly, progress preserved per brand; reset asks inline confirmation then lands on `/wizard` with empty localStorage state.
 - Corrupted-storage check: in DevTools run `localStorage.setItem('progress', '{broken')` then reload → app starts clean at wizard (no crash).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add error.vue pages
@@ -1999,7 +2001,7 @@ git commit -m "feat: themed error page and settings with brand switch and reset"
 - Consumes: `useProgressStore`, `TOTAL_LESSONS`, `<ProgressBar>` (Task 6), `<ApertureMark>` (Task 4).
 - Produces: sticky header with logo → `/`, links to `/corso` and `/impostazioni`, global progress bar, hamburger menu under 720px. Wraps all pages via default layout.
 
-- [ ] **Step 1: Write `components/AppHeader.vue`**
+- [x] **Step 1: Write `components/AppHeader.vue`**
 
 ```vue
 <script setup lang="ts">
@@ -2076,7 +2078,7 @@ const pct = computed(() => Math.round((store.completedCount / TOTAL_LESSONS) * 1
 </style>
 ```
 
-- [ ] **Step 2: Write `layouts/default.vue`**
+- [x] **Step 2: Write `layouts/default.vue`**
 
 ```vue
 <template>
@@ -2087,15 +2089,15 @@ const pct = computed(() => Math.round((store.completedCount / TOTAL_LESSONS) * 1
 </template>
 ```
 
-- [ ] **Step 3: Hide the header on immersive pages**
+- [x] **Step 3: Hide the header on immersive pages**
 
 Landing and wizard are full-screen experiences: add `definePageMeta({ layout: false })` to `pages/index.vue` and `pages/wizard.vue`.
 
-- [ ] **Step 4: Verify manually**
+- [x] **Step 4: Verify manually**
 
 Desktop: header sticky on `/corso` and lessons with working links and progress %. Mobile (DevTools ≤ 720px): hamburger toggles the menu; menu closes on navigation. Landing/wizard have no header.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add layouts components pages
@@ -2189,10 +2191,10 @@ Required topics: 17 aperture larghe, fuoco sull'occhio, focali ritratto, gestion
 - Consumes: content authoring reference above; MDC components (Tasks 3, 9).
 - Produces: 10 complete Canon lessons.
 
-- [ ] **Step 1:** Write lessons 02–06 (Canon) per the catalog and checklist above.
-- [ ] **Step 2:** Write lessons 07–11 (Canon).
-- [ ] **Step 3:** Verify — `npm run dev`: dashboard shows 11 Canon lessons in Modulo 1, each renders with quiz + challenge; diagrams appear in 02, 03, 04, 06.
-- [ ] **Step 4:** Commit
+- [x] **Step 1:** Write lessons 02–06 (Canon) per the catalog and checklist above.
+- [x] **Step 2:** Write lessons 07–11 (Canon).
+- [x] **Step 3:** Verify — `npm run dev`: dashboard shows 11 Canon lessons in Modulo 1, each renders with quiz + challenge; diagrams appear in 02, 03, 04, 06.
+- [x] **Step 4:** Commit
 
 ```bash
 git add content/canon
@@ -2208,10 +2210,10 @@ git commit -m "content: canon module 1 lessons 02-11"
 
 **Interfaces:** same as Task 12, Nikon terminology/models. Do NOT copy Canon prose verbatim: rewrite brand-specific parts (dials, menus, mode names, models); universal theory may share structure but must read naturally.
 
-- [ ] **Step 1:** Write lessons 02–06 (Nikon).
-- [ ] **Step 2:** Write lessons 07–11 (Nikon).
-- [ ] **Step 3:** Verify — switch brand to Nikon in `/impostazioni`: 11 lessons render; spot-check 03 and 07 for correct Nikon terms (A/S, non Av/Tv).
-- [ ] **Step 4:** Commit
+- [x] **Step 1:** Write lessons 02–06 (Nikon).
+- [x] **Step 2:** Write lessons 07–11 (Nikon).
+- [x] **Step 3:** Verify — switch brand to Nikon in `/impostazioni`: 11 lessons render; spot-check 03 and 07 for correct Nikon terms (A/S, non Av/Tv).
+- [x] **Step 4:** Commit
 
 ```bash
 git add content/nikon
@@ -2227,10 +2229,10 @@ git commit -m "content: nikon module 1 lessons 02-11"
 
 **Interfaces:** same reference. Module 2 is mostly universal theory; brand-specific hooks required at minimum in 15 (attacchi EF/EF-S vs F, esempi di ottiche reali della marca) and 16 (Speedlite vs Speedlight, nomi menu flash).
 
-- [ ] **Step 1:** Write Canon 12–16.
-- [ ] **Step 2:** Write Nikon 12–16.
-- [ ] **Step 3:** Verify — both brands show Modulo 2 complete (5 lessons each) and render correctly.
-- [ ] **Step 4:** Commit
+- [x] **Step 1:** Write Canon 12–16.
+- [x] **Step 2:** Write Nikon 12–16.
+- [x] **Step 3:** Verify — both brands show Modulo 2 complete (5 lessons each) and render correctly.
+- [x] **Step 4:** Commit
 
 ```bash
 git add content
@@ -2246,10 +2248,10 @@ git commit -m "content: module 2 lessons 12-16 for canon and nikon"
 
 **Interfaces:** same reference; MANDATORY module-3 structure (contesto → tabella impostazioni → trick base → trick avanzati → errori comuni → pro tip). Settings tables must name Canon controls (Av/Tv, AI Servo, ghiera principale).
 
-- [ ] **Step 1:** Write lessons 17–20 (Canon).
-- [ ] **Step 2:** Write lessons 21–24 (Canon).
-- [ ] **Step 3:** Verify — Canon dashboard shows all 24 lessons; `::shutter-motion-diagram` present in 19 and 23; `::aperture-diagram` in 17 and 18.
-- [ ] **Step 4:** Commit
+- [x] **Step 1:** Write lessons 17–20 (Canon).
+- [x] **Step 2:** Write lessons 21–24 (Canon).
+- [x] **Step 3:** Verify — Canon dashboard shows all 24 lessons; `::shutter-motion-diagram` present in 19 and 23; `::aperture-diagram` in 17 and 18.
+- [x] **Step 4:** Commit
 
 ```bash
 git add content/canon
@@ -2265,10 +2267,10 @@ git commit -m "content: canon module 3 lessons 17-24"
 
 **Interfaces:** same as Task 15 with Nikon controls (A/S, AF-C, ghiera di comando principale).
 
-- [ ] **Step 1:** Write lessons 17–20 (Nikon).
-- [ ] **Step 2:** Write lessons 21–24 (Nikon).
-- [ ] **Step 3:** Verify — Nikon dashboard shows all 24 lessons; completing a full lesson end-to-end still works.
-- [ ] **Step 4:** Commit
+- [x] **Step 1:** Write lessons 17–20 (Nikon).
+- [x] **Step 2:** Write lessons 21–24 (Nikon).
+- [x] **Step 3:** Verify — Nikon dashboard shows all 24 lessons; completing a full lesson end-to-end still works.
+- [x] **Step 4:** Commit
 
 ```bash
 git add content/nikon
@@ -2287,12 +2289,12 @@ git commit -m "content: nikon module 3 lessons 17-24"
 - Consumes: the `::lesson-image` blocks already present in lessons; `LessonImage` fallback behavior.
 - Produces: every `lesson-image` src resolves to a real file, or the lesson is edited to drop the block in favor of prose/SVG.
 
-- [ ] **Step 1: Inventory** — grep all image references: `grep -rho 'src="/images/[^"]*"' content/ | sort -u`. This is the download list.
-- [ ] **Step 2: Source images** — for each reference, find a matching photo on Wikimedia Commons (camera bodies, dials: search e.g. "Canon EOS 850D top"), Unsplash or Pexels (example shots: portrait bokeh, panning, star trails…). License MUST be CC0/CC-BY/CC-BY-SA/Unsplash/Pexels license. Download, convert/resize to WebP max 1600px wide (use `npx sharp-cli` or any local converter), save under the referenced path.
-- [ ] **Step 3: Attribution** — write `CREDITS.md`: one line per image — path, author, source URL, license. Include even "no attribution required" sources.
-- [ ] **Step 4: Fallbacks** — for any reference with no adequately-licensed image found, edit the lesson: remove the `::lesson-image` block or replace with an existing diagram. Zero permanently-broken image references may remain.
-- [ ] **Step 5: Verify** — click through several lessons of both brands: photos load lazily, no layout shift, `CREDITS.md` covers every file in `public/images/`. If the executing environment has no internet access: STOP and report to the user which images are needed instead of shipping broken references.
-- [ ] **Step 6: Commit**
+- [x] **Step 1: Inventory** — grep all image references: `grep -rho 'src="/images/[^"]*"' content/ | sort -u`. This is the download list.
+- [x] **Step 2: Source images** — for each reference, find a matching photo on Wikimedia Commons (camera bodies, dials: search e.g. "Canon EOS 850D top"), Unsplash or Pexels (example shots: portrait bokeh, panning, star trails…). License MUST be CC0/CC-BY/CC-BY-SA/Unsplash/Pexels license. Download, convert/resize to WebP max 1600px wide (use `npx sharp-cli` or any local converter), save under the referenced path.
+- [x] **Step 3: Attribution** — write `CREDITS.md`: one line per image — path, author, source URL, license. Include even "no attribution required" sources.
+- [x] **Step 4: Fallbacks** — for any reference with no adequately-licensed image found, edit the lesson: remove the `::lesson-image` block or replace with an existing diagram. Zero permanently-broken image references may remain.
+- [x] **Step 5: Verify** — click through several lessons of both brands: photos load lazily, no layout shift, `CREDITS.md` covers every file in `public/images/`. If the executing environment has no internet access: STOP and report to the user which images are needed instead of shipping broken references.
+- [x] **Step 6: Commit**
 
 ```bash
 git add public/images CREDITS.md content
@@ -2306,19 +2308,19 @@ git commit -m "content: free-license photos with attributions"
 **Files:**
 - Possibly modify: anything that fails verification.
 
-- [ ] **Step 1: Full test suite** — Run `npm run test`. Expected: all tests pass. Fix any failure before proceeding.
-- [ ] **Step 2: Static build** — Run `npm run generate`. Expected: completes with no errors. Then `npm run preview` and test against the generated site (not dev mode).
-- [ ] **Step 3: Manual E2E — desktop** (fresh browser profile / cleared localStorage):
+- [x] **Step 1: Full test suite** — Run `npm run test`. Expected: all tests pass. Fix any failure before proceeding.
+- [x] **Step 2: Static build** — Run `npm run generate`. Expected: completes with no errors. Then `npm run preview` and test against the generated site (not dev mode).
+- [x] **Step 3: Manual E2E — desktop** (fresh browser profile / cleared localStorage):
   1. `/` → hero animates → "Inizia ora" → wizard.
   2. Pick Nikon → summary → "Inizia il corso" → dashboard shows 24 Nikon lessons, `data-brand="nikon"`.
   3. Open lesson 01 → scroll (reveals + reading bar) → fail a quiz question (shake + retry) → answer all correctly → tick challenge → complete → celebration → dashboard shows ✓ and updated bars, header shows %.
   4. `/impostazioni` → switch to Canon → dashboard progress back to 0 → switch back to Nikon → progress restored.
   5. Reload → everything persists. `/rotta-finta` → themed 404.
   6. DevTools reduced-motion emulation → pages usable, content immediately visible.
-- [ ] **Step 4: Manual E2E — mobile** (DevTools iPhone-class viewport): hamburger menu works, wizard cards stack, lesson tables scroll horizontally, quiz buttons comfortably tappable, no horizontal page scroll anywhere.
-- [ ] **Step 5: Lighthouse** — run on `/corso` and one lesson (generated build). Target: Performance ≥ 85, Accessibility ≥ 95. Fix low-hanging issues (missing alt, contrast, image sizes) if below.
-- [ ] **Step 6: Content spot-check** — pick 2 random lessons per brand: word count 800+, "Errori comuni" + "Pro tip" present, quiz plausible, brand terms correct.
-- [ ] **Step 7: Commit any fixes**
+- [x] **Step 4: Manual E2E — mobile** (DevTools iPhone-class viewport): hamburger menu works, wizard cards stack, lesson tables scroll horizontally, quiz buttons comfortably tappable, no horizontal page scroll anywhere.
+- [x] **Step 5: Lighthouse** — run on `/corso` and one lesson (generated build). Target: Performance ≥ 85, Accessibility ≥ 95. Fix low-hanging issues (missing alt, contrast, image sizes) if below.
+- [x] **Step 6: Content spot-check** — pick 2 random lessons per brand: word count 800+, "Errori comuni" + "Pro tip" present, quiz plausible, brand terms correct.
+- [x] **Step 7: Commit any fixes**
 
 ```bash
 git add -A
