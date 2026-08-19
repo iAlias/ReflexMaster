@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { useProgressStore, type Brand } from '~/stores/progress'
 
+// Landing and wizard are full-screen experiences: no app header.
+definePageMeta({ layout: false })
+
 const store = useProgressStore()
 const router = useRouter()
 const { $gsap } = useNuxtApp()

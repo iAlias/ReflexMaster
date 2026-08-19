@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { useProgressStore } from '~/stores/progress'
 
+// Landing and wizard are full-screen experiences: no app header.
+definePageMeta({ layout: false })
+
 const store = useProgressStore()
 const title = 'Reflex Master'
 const chars = title.split('')
