@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { useProgressStore } from '~/stores/progress'
 
-// Landing and wizard are full-screen experiences: no app header.
-definePageMeta({ layout: false })
+// Landing and wizard are full-screen experiences: the default layout keeps its
+// wrapper (so the DOM structure never changes under the router) but hides the
+// header. Using `layout: false` here instead made every client-side redirect
+// into these pages - the wizard route guard fires during hydration - swap a
+// laid-out tree for a bare fragment, which Vue reports as a hydration mismatch.
+definePageMeta({ immersive: true })
 
 const store = useProgressStore()
 const title = 'Reflex Master'
