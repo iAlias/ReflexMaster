@@ -1,11 +1,18 @@
 <script setup lang="ts">
-defineProps<{
+import { withBase } from 'ufo'
+
+const props = defineProps<{
   src: string
   alt: string
   credit?: string
   width?: number | string
   height?: number | string
 }>()
+
+// Lesson Markdown writes site-absolute paths (/images/...). When the site is
+// deployed under a sub-path (app.baseURL, e.g. /AI/Reflex/), those would resolve
+// against the domain root and 404, so prefix them with the configured base.
+const resolvedSrc = computed(() => withBase(props.src, useRuntimeConfig().app.baseURL))
 const failed = ref(false)
 </script>
 
@@ -13,7 +20,7 @@ const failed = ref(false)
   <figure class="lesson-image">
     <img
       v-if="!failed"
-      :src="src"
+      :src="resolvedSrc"
       :alt="alt"
       loading="lazy"
       :width="width ?? 1200"

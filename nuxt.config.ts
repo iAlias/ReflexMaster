@@ -33,11 +33,6 @@ export default defineNuxtConfig({
     head: {
       title: 'Reflex Master — Impara la fotografia reflex',
       htmlAttrs: { lang: 'it' },
-      link: [
-        // Declaring the icon stops browsers from probing /favicon.ico, which the
-        // static output does not ship.
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-      ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Il corso interattivo che ti porta da zero a fotografo: impara a usare la tua reflex Canon o Nikon come un professionista.' },

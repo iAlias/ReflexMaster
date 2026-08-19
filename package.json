@@ -11,7 +11,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "test": "vitest run",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "generate:subpath": "node scripts/generate-subpath.mjs"
   },
   "dependencies": {
     "@nuxt/content": "^3.6.0",
