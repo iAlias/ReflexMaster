@@ -6,3 +6,6 @@ dist
 *.log
 .playwright-mcp
 *.zip
+
+# build statica generata: si rigenera con 'npm run generate'
+reflex-master-AI-Reflex/
