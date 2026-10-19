@@ -1,5 +1,12 @@
 # Reflex Master
 
+![Nuxt](https://img.shields.io/badge/Nuxt-3-00dc82)
+![Vue](https://img.shields.io/badge/Vue-3-42b883)
+![Test](https://img.shields.io/badge/test-Vitest-2a6e4e)
+![Stato](https://img.shields.io/badge/stato-online-2a6e4e)
+
+🌐 **Sito:** <https://ialias.github.io/ReflexMaster/>
+
 Corso di fotografia reflex, costruito con **Nuxt 3 + Nuxt Content**.
 
 Due percorsi separati per corpo macchina (**Canon** e **Nikon**), dall'anatomia della

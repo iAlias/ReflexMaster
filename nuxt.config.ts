@@ -29,6 +29,9 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
   app: {
+    // Su GitHub Pages il sito vive in una sottocartella (/ReflexMaster/): la base URL
+    // va impostata in build, altrimenti tutti gli asset puntano alla radice del dominio.
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       title: 'Reflex Master — Impara la fotografia reflex',
